@@ -6,10 +6,13 @@ function App() {
   const eventSource = useRef<EventSource>(null)
 
   useEffect(() => {
-    eventSource.current = new EventSource("http://localhost:5000/ping")
+    eventSource.current = new EventSource("/api/chat")
 
     eventSource.current.onmessage = (event) => {
-      setMessages(messages => [event.data, ...messages])
+      setMessages(messages => {
+        const history = messages.slice(0, 14)
+        return [event.data, ...history]
+      })
     }
 
   }, [])
@@ -20,9 +23,9 @@ function App() {
       <p>🔥 Hono Server Sent Event Chat</p>
 
       <div>
-        <form method="post" action="/ping">
-          <input type="text" name="user" placeholder='username' />
-          <input type="text" name="message" placeholder='message' />
+        <form method="post" action="/api/chat">
+          <input type="text" name="user" placeholder='username' required />
+          <input type="text" name="message" placeholder='message' required />
           <input type="submit" value="küldés" />
         </form>
       </div>
