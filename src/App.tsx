@@ -45,9 +45,16 @@ function App() {
       <div>
         <p>üzenetek</p>
         <ul className='chatwindow'>
-          {messages.map((line) => (
-            <li key={line}>{line}</li>
-          ))}
+          {messages.map((line) => {
+            const message = JSON.parse(line)
+
+            return (
+              <li key={line}>
+                <span>{message["user"]}</span>
+                <span>{message["message"]}</span>
+              </li>
+            )
+          })}
         </ul>
       </div>
     </div>
