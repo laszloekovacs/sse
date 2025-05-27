@@ -18,12 +18,24 @@ function App() {
   }, [])
 
 
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    await fetch("/api/chat", {
+      method: "POST",
+      body: formData,
+    })
+  }
+
+
+
   return (
     <div>
       <p>🔥 Hono Server Sent Event Chat</p>
 
       <div>
-        <form method="post" action="/api/chat">
+        <form method="post" onSubmit={handleSubmit}>
           <input type="text" name="user" placeholder='username' required />
           <input type="text" name="message" placeholder='message' required />
           <input type="submit" value="küldés" />
